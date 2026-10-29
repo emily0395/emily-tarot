@@ -1,0 +1,453 @@
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#203a33"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Emily 塔羅覺察練習</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&family=LXGW+WenKai+TC&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>if(!window.html2canvas)document.write('<script src="html2canvas.min.js"><\/script>')</script>
+<style>
+/* Layout: one phone-first column, five steps; the 4:5 poster appears in the last step.
+   Chrome: deep night-green with candle-gold; poster keeps its own paper palette. */
+:root{
+  --bg:#f1efe9; --surface:#ffffff; --surface-2:#f7f6f2; --ink:#1f2421; --muted:#5f6862;
+  --line:#dcdcd3; --accent:#2f5a4d; --accent-ink:#ffffff; --gold:#b48a4a; --soft:#e6ede9; --warn:#a4562f;
+  --f-display:'Noto Serif TC','Songti TC','PMingLiU',serif;
+  --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
+  --f-hand:'LXGW WenKai TC','Noto Serif TC',serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111614; --surface:#19201d; --surface-2:#1f2724; --ink:#e7ece9; --muted:#9aa69f;
+  --line:#2e3833; --accent:#86bba8; --accent-ink:#0d1412; --gold:#d6ae6c; --soft:#20302a; --warn:#e3966d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111614; --surface:#19201d; --surface-2:#1f2724; --ink:#e7ece9; --muted:#9aa69f;
+  --line:#2e3833; --accent:#86bba8; --accent-ink:#0d1412; --gold:#d6ae6c; --soft:#20302a; --warn:#e3966d; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:600px;margin:0 auto}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding-block:12px 10px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+.brand{display:flex;align-items:baseline;gap:10px;justify-content:space-between}
+.brand b{font-family:var(--f-display);font-size:19px;letter-spacing:.06em}
+.brand span{font-size:13px;color:var(--muted)}
+.steps{display:flex;gap:6px;margin-top:10px}
+.steps button{flex:1;border:0;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 0;font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.steps button.done{color:var(--accent);border-color:var(--accent)}
+.steps button[aria-current="step"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:500}
+.steps button:disabled{opacity:.45;cursor:default}
+
+h1.step-title{font-family:var(--f-display);font-size:24px;margin:18px 0 4px;letter-spacing:.04em;text-wrap:balance}
+.lead{color:var(--muted);margin:0 0 16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.stack{display:flex;flex-direction:column;gap:16px}
+label.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+label.f>span{font-size:14px;font-weight:500}
+label.f>small,.hint{font-size:13px;color:var(--muted);margin:0}
+input:not([type=checkbox]),textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:10px 12px;min-width:0}
+textarea{resize:vertical;line-height:1.65}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.check{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.check input{width:18px;height:18px;accent-color:var(--accent)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 18px;cursor:pointer;font-weight:500}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.5;cursor:default}
+.nav{display:flex;gap:10px;margin-top:20px}
+.nav .btn{flex:1}
+
+.spreads{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.spread{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.spread b{font-size:15px}
+.spread small{color:var(--muted);font-size:12px;line-height:1.5}
+.spread[aria-pressed="true"]{border:2px solid var(--accent);padding:11px;background:var(--soft)}
+.pos-list{display:flex;flex-direction:column;gap:10px}
+.pos-row{display:grid;grid-template-columns:28px minmax(0,1fr) minmax(0,1.3fr);gap:8px;align-items:center}
+.num{width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.stepper button{border:0;background:none;width:40px;height:38px;cursor:pointer;font-size:18px}
+.stepper output{min-width:40px;text-align:center;font-weight:700}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:9px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:500}
+
+/* draw table */
+.table{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:8px 0}
+.slot{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:130px;min-width:0}
+.slot .pl{font-size:13px;font-weight:700;text-align:center;line-height:1.3}
+.flip{width:100%;aspect-ratio:320/549;perspective:800px;cursor:pointer;border:0;background:none;padding:0}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+.flip.open .in{transform:rotateY(180deg)}
+.flip .face,.flip .back{position:absolute;inset:0;border-radius:8px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.flip .back{background:
+  radial-gradient(circle at 50% 50%,transparent 22%,rgba(214,174,108,.0) 23%),
+  repeating-linear-gradient(45deg,rgba(214,174,108,.22) 0 2px,transparent 2px 12px),
+  repeating-linear-gradient(-45deg,rgba(214,174,108,.22) 0 2px,transparent 2px 12px),#203a33;
+  border:3px solid #c9a46a;display:grid;place-items:center}
+.flip .back svg{width:46%}
+.flip .face{transform:rotateY(180deg);background:#e9dcc6 center/cover;border:2px solid #5e4c3a}
+.flip .face.rev{transform:rotateY(180deg) rotate(180deg)}
+.slot .cn{font-size:13px;text-align:center;min-height:1.6em;line-height:1.3}
+.slot .cn b{display:inline-block;font-size:11px;color:var(--warn);border:1px solid currentColor;border-radius:999px;padding:0 6px;margin-left:4px;font-weight:500}
+@media (prefers-reduced-motion:reduce){.flip .in{transition:none}}
+.manual-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center}
+
+/* writing */
+.wcard{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start}
+.wcard .mini{width:64px;aspect-ratio:320/549;border-radius:5px;background:#e9dcc6 center/cover;border:1.5px solid #5e4c3a}
+.wcard .mini.rev{transform:rotate(180deg)}
+.count{font-size:12px;color:var(--muted);text-align:right}
+
+/* result */
+.stage-wrap{width:100%;position:relative;overflow:hidden;border-radius:6px;box-shadow:0 10px 28px rgba(20,30,25,.2)}
+#poster{transform-origin:0 0}
+.result-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.history{display:flex;flex-direction:column;gap:6px}
+.history button{display:flex;justify-content:space-between;gap:10px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;cursor:pointer}
+.history button span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.history button small{color:var(--muted);flex:none;font-variant-numeric:tabular-nums}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(10,15,12,.75);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal-card{background:var(--surface);border-radius:14px;padding:16px;max-width:480px;width:100%;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.modal-card img{width:100%;border-radius:6px;-webkit-touch-callout:default}
+.busy{position:fixed;inset:0;z-index:55;background:rgba(10,15,12,.55);display:grid;place-items:center;color:#fff}
+
+/* ---------- Poster (fixed 1080×1350) ---------- */
+#poster{position:relative;width:1080px;height:1350px;background:linear-gradient(172deg,#f6efe3 0%,#f1e7d6 60%,#ede1cd 100%);color:#3a2e24;font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;overflow:hidden}
+#poster .deco{position:absolute;left:0;top:0;width:1080px;height:1350px}
+.p-brandL{position:absolute;left:58px;top:42px;font-family:'Noto Serif TC',serif;font-size:19px;line-height:1.55;letter-spacing:.14em;color:#7d6a55;white-space:pre-line;font-weight:500}
+.p-brandR{position:absolute;right:58px;top:42px;text-align:right;font-family:'Noto Serif TC',serif;font-size:17px;line-height:1.75;letter-spacing:.2em;color:#8b7a66;white-space:pre-line}
+.p-eyebrow{position:absolute;top:30px;left:0;width:1080px;text-align:center}
+.p-eyebrow span{display:inline-block;background:#e8d6bb;color:#5b4635;font-size:22px;letter-spacing:.24em;padding:8px 30px 8px 36px;border-radius:999px}
+.p-title{position:absolute;top:96px;left:170px;width:740px;height:168px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.p-title div{font-family:'Noto Serif TC',serif;font-weight:700;line-height:1.3;letter-spacing:.04em;text-align:center;white-space:pre-line;color:#33281f}
+.p-sub{position:absolute;top:270px;left:0;width:1080px;text-align:center;font-size:24px;letter-spacing:.14em;color:#6a5846;font-family:'Noto Serif TC',serif;font-weight:500}
+#cardArea{position:absolute;left:0;top:322px;width:1080px;height:530px}
+.ci{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;text-align:center}
+.ci-pos{font-family:'Noto Serif TC',serif;font-weight:700;color:#33281f;white-space:nowrap;line-height:1.3}
+.ci-desc{color:#6a5846;white-space:nowrap;line-height:1.35}
+.ci-frame{position:relative;border:2px solid #5e4c3a;background:#eadfcb;box-shadow:0 6px 14px rgba(70,50,30,.18);overflow:hidden}
+.ci-face{position:absolute;background-color:#e9dcc6;background-size:cover;background-position:center}
+.ci-name{font-family:'Noto Serif TC',serif;font-weight:700;color:#33281f;white-space:nowrap;line-height:1.3}
+.ci-name b{font-family:'Noto Sans TC',sans-serif;font-weight:500;color:#8a5a3b;border:1px solid #c79a78;border-radius:999px;margin-left:6px;vertical-align:middle}
+.ci-note{color:#5d4c3c;line-height:1.4;font-family:'LXGW WenKai TC','Noto Serif TC',serif;overflow:hidden}
+.p-panels{position:absolute;top:866px;left:34px;width:1012px;height:352px;display:flex;gap:16px}
+.pan{flex:1;min-width:0;background:#f6eee1;border:1px solid #e1d1b8;border-radius:22px;padding:16px;display:flex;flex-direction:column}
+.pan-h{display:flex;align-items:center;gap:14px;padding:2px 4px}
+.pan-ic{width:58px;height:58px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center}
+.pan-t{font-family:'Noto Serif TC',serif;font-weight:700;font-size:31px;letter-spacing:.14em;line-height:1.2;color:#3a2e24}
+.pan-s{font-size:16px;color:#8b7964;letter-spacing:.05em}
+.pan-b{flex:1;min-height:0;margin-top:12px;background:#fcf8f1;border-radius:16px;overflow:hidden}
+.pan-b .in{padding:14px 16px;line-height:1.62;color:#3a2e24;white-space:pre-wrap;word-break:break-word}
+.pan-b .bl{display:flex;gap:.5em;margin-bottom:.3em}
+.pan-b .bl span{flex:none}
+.p-band{position:absolute;top:1236px;left:34px;width:1012px;height:84px;border:1.5px solid #cdb999;border-radius:44px;display:flex;align-items:center;gap:22px;padding:0 90px 0 38px}
+.p-band .lb{font-family:'LXGW WenKai TC','Noto Serif TC',serif;font-size:32px;color:#7a644e;letter-spacing:.12em;flex:none}
+.p-band .tx{flex:1;min-width:0;height:66px;display:flex;align-items:center;overflow:hidden}
+.p-band .tx div{line-height:1.55;color:#3a2e24;white-space:pre-wrap;letter-spacing:.03em}
+</style>
+
+</head><body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><b>塔羅覺察練習</b><span>Emily潛意識塔羅牌</span></div>
+    <nav class="steps" id="steps" aria-label="練習步驟"></nav>
+  </header>
+  <main id="view"></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="busy" id="busy" hidden>正在產生你的圖片……</div>
+<div class="modal" id="modal" hidden></div>
+<datalist id="cardNames"></datalist>
+
+<script>
+(()=>{
+'use strict';
+/* ======== 老師可修改的設定 ======== */
+const BRAND={
+  left:'Emily\n潛意識塔羅牌',
+  right:'用直覺\n看見\n內在的自己',
+  eyebrow:'塔羅覺察練習'
+};
+const THEMES=['今日指引','工作與生活','人際關係','感情','自我成長','金錢與豐盛'];
+const SPREADS=[
+  {name:'單張指引',cards:[['今日指引','此刻最需要知道的事']]},
+  {name:'現狀・挑戰・方向',cards:[['現狀','我的能量與狀態'],['挑戰','需要留意的課題'],['方向','接下來的建議']]},
+  {name:'過去・現在・未來',cards:[['過去','影響至今的經驗'],['現在','目前的狀態'],['未來','可能的發展']]},
+  {name:'身・心・靈',cards:[['身','我的身體狀態'],['心','我的情緒'],['靈','內在的聲音']]},
+  {name:'二選一',cards:[['現況','我現在的位置'],['選擇A','走這條路會如何'],['選擇B','走這條路會如何']]},
+  {name:'五張深入',cards:[['現況',''],['阻礙',''],['資源',''],['建議',''],['結果','']]}
+];
+/* ================================= */
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+/* ---- deck ---- */
+const MAJ=['愚者','魔術師','女祭司','皇后','皇帝','教皇','戀人','戰車','力量','隱者','命運之輪','正義','吊人','死神','節制','惡魔','高塔','星星','月亮','太陽','審判','世界'];
+const MAJ_EN=['The Fool','The Magician','The High Priestess','The Empress','The Emperor','The Hierophant','The Lovers','The Chariot','Strength','The Hermit','Wheel of Fortune','Justice','The Hanged Man','Death','Temperance','The Devil','The Tower','The Star','The Moon','The Sun','Judgement','The World'];
+const MAJ_ALT={0:['愚人'],1:['魔法師'],2:['女教皇'],5:['教宗'],9:['隱士'],10:['命運'],12:['倒吊人'],16:['塔']};
+const SUITS=[['w','權杖','Wands',['杖','rods']],['c','聖杯','Cups',['杯']],['s','寶劍','Swords',['劍']],['p','錢幣','Pentacles',['金幣','星幣','coins']]];
+const RANKS=[['王牌','Ace',['一','1']],['二','Two',['2']],['三','Three',['3']],['四','Four',['4']],['五','Five',['5']],['六','Six',['6']],['七','Seven',['7']],['八','Eight',['8']],['九','Nine',['9']],['十','Ten',['10']],['侍者','Page',['侍從','侍衛','隨從']],['騎士','Knight',[]],['皇后','Queen',['王后','女王']],['國王','King',['王']]];
+const DECK=[],ALIAS=new Map();
+const norm=s=>String(s||'').toLowerCase().replace(/逆位|正位/g,'').replace(/[\s_\-·・.。,，()（）]/g,'').replace(/^the/,'');
+MAJ.forEach((zh,i)=>{const code='m'+pad(i);DECK.push({code,zh});[zh,MAJ_EN[i],...(MAJ_ALT[i]||[])].forEach(a=>ALIAS.set(norm(a),code))});
+SUITS.forEach(([k,szh,sen,alts])=>RANKS.forEach(([rzh,ren,ralts],ri)=>{const code=k+pad(ri+1);DECK.push({code,zh:szh+rzh});
+  const zs=[szh,...alts.filter(a=>/[^\x00-\x7f]/.test(a))],es=[sen,...alts.filter(a=>!/[^\x00-\x7f]/.test(a))];
+  zs.forEach(s=>[rzh,...ralts].forEach(r=>ALIAS.set(norm(s+r),code)));es.forEach(s=>ALIAS.set(norm(ren+'of'+s),code))}));
+const canonical=n=>ALIAS.get(norm(n))||null;
+const imageFor=n=>{const c=canonical(n);return c?`cards/${c}.jpg`:null};
+$('#cardNames').innerHTML=DECK.map(d=>`<option value="${d.zh}">`).join('');
+
+/* ---- state ---- */
+const LS='emily-practice-v1',LS_H='emily-history-v1';
+const lsGet=k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+const today=()=>{const d=new Date();return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`};
+function fresh(keep={}){return {id:Date.now().toString(36),step:1,name:keep.name||'',theme:'',question:'',spread:1,allowRev:keep.allowRev??true,mode:'random',
+  cards:SPREADS[1].cards.map(([pos,desc])=>({pos,desc,name:'',rev:false,open:false,note:''})),feel:'',insight:'',action:'',self:'',date:today()}}
+let S=lsGet(LS)||fresh();
+let saveT;const save=()=>{clearTimeout(saveT);saveT=setTimeout(()=>lsSet(LS,S),250)};
+
+/* ---- step navigation ---- */
+const STEP_NAMES=['問題','牌陣','抽牌','書寫','完成'];
+function maxStep(){if(!S.question.trim())return 1;if(!S.cards.length||S.cards.some(c=>!c.pos.trim()))return 2;
+  if(S.cards.some(c=>!c.name.trim()||(S.mode==='random'&&!c.open)))return 3;return 5}
+function renderSteps(){const m=maxStep();$('#steps').innerHTML=STEP_NAMES.map((n,i)=>`<button data-go="${i+1}" ${i+1===S.step?'aria-current="step"':''} class="${i+1<S.step?'done':''}" ${i+1>m?'disabled':''}>${i+1} ${n}</button>`).join('')}
+$('#steps').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b&&!b.disabled)go(+b.dataset.go)});
+function go(n){S.step=n;save();render();window.scrollTo({top:0})}
+function nav(prev,next,nextLabel='下一步'){return `<div class="nav">${prev?`<button class="btn" data-nav="${prev}">上一步</button>`:''}<button class="btn primary" data-nav="${next}" id="btnNext">${nextLabel}</button></div>`}
+$('#view').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;const n=+b.dataset.nav;
+  if(n>S.step){const m=maxStep();if(n>m){toast(['','請先寫下你的問題','請確認每個位置都有名稱','請先把每張牌翻開或填好牌名'][m]||'');return}}
+  go(n)});
+
+/* ---- views ---- */
+function render(){renderSteps();const v=$('#view');v.innerHTML=[null,v1,v2,v3,v4,v5][S.step]();[null,b1,b2,b3,b4,b5][S.step]()}
+
+function v1(){const h=lsGet(LS_H)||[];return `
+  <h1 class="step-title">今天，你想問什麼？</h1>
+  <p class="lead">安靜下來，深呼吸三次，把心裡的問題寫下來。</p>
+  <div class="card">
+    <div><p class="hint" style="margin-bottom:8px">主題（選一個，或略過）</p>
+      <div class="chips" id="themes">${THEMES.map(t=>`<button class="chip" aria-pressed="${S.theme===t}">${esc(t)}</button>`).join('')}</div></div>
+    <label class="f"><span>我的問題</span><textarea id="q" rows="3" placeholder="例如：現在的我，在這個選擇中需要知道什麼？">${esc(S.question)}</textarea>
+      <small>用「我」開頭、開放式的問題最好，例如「我可以怎麼…」「我需要看見什麼…」</small></label>
+    <label class="f"><span>暱稱（選填，會出現在圖片上）</span><input id="nm" value="${esc(S.name)}" maxlength="16"></label>
+  </div>
+  ${nav(0,2)}
+  ${h.length?`<div style="margin-top:28px"><p class="hint" style="margin-bottom:8px">我的練習紀錄（存在這支手機裡）</p><div class="history">${h.slice(0,12).map((r,i)=>`<button data-h="${i}"><span>${esc(r.question.replace(/\n/g,' '))}</span><small>${esc(r.date)}</small></button>`).join('')}</div></div>`:''}`}
+function b1(){
+  $('#themes').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;S.theme=S.theme===b.textContent?'':b.textContent;save();
+    $('#themes').querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.textContent===S.theme))};
+  $('#q').oninput=e=>{S.question=e.target.value;save();renderSteps()};
+  $('#nm').oninput=e=>{S.name=e.target.value;save()};
+  $('#view').querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{const r=(lsGet(LS_H)||[])[+b.dataset.h];if(r){S=clone(r.state);S.step=5;save();render();window.scrollTo({top:0})}});
+}
+
+function v2(){return `
+  <h1 class="step-title">選擇牌陣</h1>
+  <p class="lead">挑一個牌陣，或自己決定張數和每個位置的意義。</p>
+  <div class="card">
+    <div class="spreads" id="spreads">${SPREADS.map((p,i)=>`<button class="spread" data-sp="${i}" aria-pressed="${S.spread===i}"><b>${esc(p.name)}</b><small>${p.cards.length} 張｜${esc(p.cards.map(c=>c[0]).join('・'))}</small></button>`).join('')}
+      <button class="spread" data-sp="-1" aria-pressed="${S.spread===-1}"><b>自己設計</b><small>1～5 張，位置自己取名</small></button></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="row" style="justify-content:space-between"><b>每個位置的意義</b>
+      <div class="stepper"><button id="nM" aria-label="減少一張">−</button><output id="nO">${S.cards.length}</output><button id="nP" aria-label="增加一張">+</button></div></div>
+    <div class="pos-list" id="posList">${S.cards.map((c,i)=>`<div class="pos-row"><div class="num">${i+1}</div>
+      <input data-i="${i}" data-k="pos" value="${esc(c.pos)}" placeholder="位置名稱" maxlength="10" aria-label="第${i+1}張位置名稱">
+      <input data-i="${i}" data-k="desc" value="${esc(c.desc)}" placeholder="代表的意義（選填）" maxlength="14" aria-label="第${i+1}張位置意義"></div>`).join('')}</div>
+    <small class="hint">可以直接修改名稱和意義，改了就會變成「自己設計」。</small>
+  </div>
+  ${nav(1,3)}`}
+function b2(){
+  $('#spreads').onclick=e=>{const b=e.target.closest('[data-sp]');if(!b)return;const i=+b.dataset.sp;S.spread=i;
+    if(i>=0){const old=S.cards;S.cards=SPREADS[i].cards.map(([pos,desc],j)=>({pos,desc,name:old[j]?.name||'',rev:old[j]?.rev||false,open:old[j]?.open||false,note:old[j]?.note||''}))}
+    save();render()};
+  const setN=n=>{n=Math.max(1,Math.min(5,n));while(S.cards.length<n)S.cards.push({pos:'位置'+(S.cards.length+1),desc:'',name:'',rev:false,open:false,note:''});S.cards.length=n;S.spread=-1;save();render()};
+  $('#nM').onclick=()=>setN(S.cards.length-1);$('#nP').onclick=()=>setN(S.cards.length+1);
+  $('#posList').oninput=e=>{const t=e.target;if(!t.dataset.k)return;S.cards[+t.dataset.i][t.dataset.k]=t.value;
+    if(S.spread!==-1){S.spread=-1;$('#spreads').querySelectorAll('.spread').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sp==='-1'))}save();renderSteps()};
+}
+
+const BACK=`<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="none" stroke="#d6ae6c" stroke-width="1.5"/><path d="M30 12 A18 18 0 1 0 30 48 A14 18 0 1 1 30 12Z" fill="#d6ae6c"/><path d="M44 18 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5z" fill="#d6ae6c"/></svg>`;
+function v3(){const allOpen=S.cards.every(c=>c.name&&c.open);return `
+  <h1 class="step-title">抽牌</h1>
+  <p class="lead">${S.mode==='random'?'想著你的問題，再一張一張點開。':'用實體牌抽的話，把抽到的牌名填進來。'}</p>
+  <div class="row" style="justify-content:space-between;margin-bottom:12px">
+    <div class="seg"><button data-mode="random" aria-pressed="${S.mode==='random'}">隨機抽牌</button><button data-mode="manual" aria-pressed="${S.mode==='manual'}">自己填牌</button></div>
+    <label class="check"><input type="checkbox" id="rev" ${S.allowRev?'checked':''}>包含逆位</label>
+  </div>
+  <div class="card">
+  ${S.mode==='random'?`
+    <div class="table" id="table">${S.cards.map((c,i)=>`<div class="slot" style="width:calc((100% - ${12*(Math.max(S.cards.length,3)-1)}px) / ${Math.max(S.cards.length,3)})"><div class="pl">${esc(c.pos)}</div>
+      <button class="flip ${c.open&&c.name?'open':''}" data-i="${i}" aria-label="翻開${esc(c.pos)}的牌"><div class="in"><div class="back">${BACK}</div><div class="face ${c.rev?'rev':''}" style="${c.name?`background-image:url('${imageFor(c.name)}')`:''}"></div></div></button>
+      <div class="cn">${c.open&&c.name?esc(c.name)+(c.rev?'<b>逆位</b>':''):'　'}</div></div>`).join('')}</div>
+    <div class="row" style="justify-content:center"><button class="btn ghost" id="reshuffle">重新洗牌</button></div>`
+  :`<div class="pos-list" id="manual">${S.cards.map((c,i)=>`<div class="manual-row"><div class="num">${i+1}</div>
+      <input data-i="${i}" data-k="name" list="cardNames" value="${esc(c.name)}" placeholder="${esc(c.pos)}：輸入牌名" aria-label="${esc(c.pos)}的牌名">
+      <label class="check"><input type="checkbox" data-i="${i}" data-k="rev" ${c.rev?'checked':''}>逆位</label></div>`).join('')}</div>
+    <small class="hint">可以打中文或英文，例如「星星」「權杖十」「Queen of Cups」。</small>`}
+  </div>
+  ${nav(2,4)}`}
+function shuffleDraw(){const p=DECK.slice();for(let i=p.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[p[i],p[j]]=[p[j],p[i]]}
+  S.cards.forEach((c,i)=>{c.name=p[i].zh;c.rev=S.allowRev&&Math.random()<.5;c.open=false})}
+function b3(){
+  $('#view').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{S.mode=b.dataset.mode;if(S.mode==='manual')S.cards.forEach(c=>c.open=true);save();render()});
+  $('#rev').onchange=e=>{S.allowRev=e.target.checked;if(S.mode==='random'&&!S.cards.some(c=>c.open)){shuffleDraw();save();render();return}save()};
+  if(S.mode==='random'){
+    if(S.cards.some(c=>!c.name)||new Set(S.cards.map(c=>canonical(c.name))).size<S.cards.length){shuffleDraw();save();render();return}
+    // preload faces so flipping is instant
+    S.cards.forEach(c=>{const u=imageFor(c.name);if(u){const im=new Image();im.src=u}});
+    $('#table').onclick=e=>{const b=e.target.closest('.flip');if(!b)return;const c=S.cards[+b.dataset.i];if(c.open)return;
+      c.open=true;b.classList.add('open');const cn=b.parentElement.querySelector('.cn');setTimeout(()=>cn.innerHTML=esc(c.name)+(c.rev?'<b>逆位</b>':''),300);save();renderSteps();
+      if(S.cards.every(x=>x.open))setTimeout(()=>toast('牌都翻開了，先靜靜看一會兒再往下'),700)};
+    $('#reshuffle').onclick=()=>{shuffleDraw();save();render()};
+  }else{
+    $('#manual').oninput=e=>{const t=e.target;if(!t.dataset.k)return;const c=S.cards[+t.dataset.i];c[t.dataset.k]=t.type==='checkbox'?t.checked:t.value;c.open=true;save();renderSteps()};
+  }
+}
+
+function v4(){return `
+  <h1 class="step-title">用直覺書寫</h1>
+  <p class="lead">不用查牌義，也沒有標準答案。先看圖，寫下第一個浮現的感覺。</p>
+  <div class="card">
+    ${S.cards.map((c,i)=>`<div class="wcard"><div class="mini ${c.rev?'rev':''}" style="background-image:url('${imageFor(c.name)||''}')"></div>
+      <label class="f"><span>${esc(c.pos)}｜${esc(c.name)}${c.rev?'（逆位）':''}</span>
+        <input data-i="${i}" class="note" value="${esc(c.note)}" maxlength="24" placeholder="看到這張牌，我想到…">
+        <small class="count" data-c="${i}">${c.note.length}/24</small></label></div>`).join('')}
+  </div>
+  <div class="card stack" style="margin-top:14px">
+    <label class="f"><span>感受｜這組牌讓我感受到……</span><small>看著這些牌，心裡有什麼情緒？身體有什麼感覺？</small><textarea id="feel" rows="4">${esc(S.feel)}</textarea></label>
+    <label class="f"><span>領悟｜這組牌在告訴我……</span><small>牌和牌之間有什麼故事？它們和我的問題有什麼關聯？</small><textarea id="insight" rows="5">${esc(S.insight)}</textarea></label>
+    <label class="f"><span>行動｜我可以怎麼做……</span><small>寫下一到三個小行動，一行一點。</small><textarea id="action" rows="3">${esc(S.action)}</textarea></label>
+    <label class="f"><span>給自己的話</span><small>如果牌是一位溫柔的朋友，它會對你說什麼？</small><textarea id="self" rows="2">${esc(S.self)}</textarea></label>
+  </div>
+  ${nav(3,5,'完成，產生我的圖片')}`}
+function b4(){
+  $('#view').querySelectorAll('.note').forEach(el=>el.oninput=()=>{const i=+el.dataset.i;S.cards[i].note=el.value;$(`[data-c="${i}"]`).textContent=el.value.length+'/24';save()});
+  ['feel','insight','action','self'].forEach(k=>$('#'+k).oninput=e=>{S[k]=e.target.value;save()});
+}
+
+function v5(){return `
+  <h1 class="step-title">完成了，這是你的一張</h1>
+  <p class="lead">謝謝你花時間陪自己。下載後可以存在相簿，之後回頭看看。</p>
+  <div class="stage-wrap" id="stageWrap"><div id="poster"></div></div>
+  <div class="result-actions">
+    <button class="btn primary" id="btnSave">下載圖片</button>
+    <button class="btn" id="btnShare" hidden>分享／存到相簿</button>
+    <div class="row"><button class="btn ghost" data-nav="4" style="flex:1">回去修改</button><button class="btn ghost" id="btnNew" style="flex:1">開始新的練習</button></div>
+    <p class="hint">如果按了沒反應（例如在 LINE 裡打開），請長按上方圖片選「儲存圖片」，或改用 Chrome／Safari 開啟。</p>
+  </div>`}
+function b5(){
+  renderPoster();const wrap=$('#stageWrap'),poster=$('#poster');
+  const rescale=()=>{const w=wrap.clientWidth;if(!w)return;const s=w/1080;poster.style.transform=`scale(${s})`;wrap.style.height=1350*s+'px'};
+  rescale();try{new ResizeObserver(rescale).observe(wrap)}catch{window.onresize=rescale}
+  try{document.fonts.ready.then(fitAll)}catch{}
+  // remember this practice
+  const h=lsGet(LS_H)||[];const rec={id:S.id,date:S.date,question:S.question,state:clone(S)};const k=h.findIndex(r=>r.id===S.id);
+  if(k>=0)h.splice(k,1);h.unshift(rec);lsSet(LS_H,h.slice(0,30));
+  $('#btnSave').onclick=()=>exportImage('save');
+  if(navigator.canShare&&/Android|iPhone|iPad/i.test(navigator.userAgent)){$('#btnShare').hidden=false;$('#btnShare').onclick=()=>exportImage('share')}
+  let arm=0;$('#btnNew').onclick=e=>{if(Date.now()-arm>3000){arm=Date.now();e.target.textContent='再按一次開始新的練習';setTimeout(()=>{e.target.textContent='開始新的練習'},3000);return}
+    S=fresh(S);save();render();window.scrollTo({top:0})};
+}
+
+/* ---- poster ---- */
+const RATIO=549/320,AREA_W=1080,AREA_H=530;
+const SPARK=(x,y,r,c='#b99c76')=>`<path d="M${x} ${y-r} Q${x+r*.18} ${y-r*.18} ${x+r} ${y} Q${x+r*.18} ${y+r*.18} ${x} ${y+r} Q${x-r*.18} ${y+r*.18} ${x-r} ${y} Q${x-r*.18} ${y-r*.18} ${x} ${y-r}Z" fill="${c}"/>`;
+const MOON=(cx,cy,r,c)=>`<path d="M${cx} ${cy-r} A${r} ${r} 0 1 0 ${cx} ${cy+r} A${r*.78} ${r} 0 1 1 ${cx} ${cy-r}Z" fill="${c}"/>`;
+function decoSVG(){
+  let leaves='';[[1000,150,22,-40],[985,175,24,-25],[1030,190,22,-75],[968,205,24,-15],[1012,222,22,-70],[952,236,22,-10],[996,256,20,-65]]
+    .forEach(([x,y,l,a])=>leaves+=`<ellipse cx="${x}" cy="${y}" rx="${l}" ry="${l*.32}" transform="rotate(${a} ${x} ${y})" fill="none" stroke="#b49a78" stroke-width="1.6"/>`);
+  let dots='';for(let y=420;y<820;y+=24)dots+=`<circle cx="1052" cy="${y}" r="1.6" fill="#c3ad8c"/>`;for(let y=430;y<640;y+=26)dots+=`<circle cx="26" cy="${y}" r="1.6" fill="#c3ad8c"/>`;
+  return `<svg class="deco" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg">${MOON(112,212,92,'#cbb08b')}
+  <path d="M122 268 Q 540 -40 950 210" fill="none" stroke="#cfbb9c" stroke-width="1.5"/><circle cx="122" cy="268" r="5" fill="#a88c69"/><circle cx="136" cy="246" r="3" fill="#a88c69"/>
+  <path d="M60 318 Q 540 296 1020 318" fill="none" stroke="#cfbb9c" stroke-width="1.5"/>
+  <path d="M1060 330 Q 990 240 930 140" fill="none" stroke="#b49a78" stroke-width="1.6"/>${leaves}
+  ${SPARK(1040,34,14)}${SPARK(30,390,13)}${SPARK(28,1222,12)}${dots}</svg>`}
+const ICON={
+  feel:`<svg width="32" height="28" viewBox="0 0 34 30"><path d="M17 29 C6 21 1 15 1 9 A7.6 7.6 0 0 1 17 5 A7.6 7.6 0 0 1 33 9 C33 15 28 21 17 29Z" fill="#7b5a43"/></svg>`,
+  insight:`<svg width="28" height="34" viewBox="0 0 30 36"><path d="M15 2 A11 11 0 0 1 22 21.5 L22 26 L8 26 L8 21.5 A11 11 0 0 1 15 2Z" fill="none" stroke="#7b5a43" stroke-width="2.2"/><path d="M10 30 H20 M11.5 34 H18.5" stroke="#7b5a43" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  action:`<svg width="32" height="34" viewBox="0 0 34 36"><path d="M17 35 V8" stroke="#f3ebde" stroke-width="2.2" stroke-linecap="round"/><path d="M17 12 C10 12 6 7 6 2 C12 2 17 6 17 12Z M17 18 C24 18 28 13 28 8 C22 8 17 12 17 18Z M17 26 C9 26 4 21 4 16 C11 16 17 20 17 26Z M17 30 C24 30 30 26 30 21 C23 21 17 24 17 30Z" fill="none" stroke="#f3ebde" stroke-width="1.8"/></svg>`};
+function bullets(s){return String(s||'').split('\n').map(l=>l.replace(/^\s*([-*•・●]|\d+[.)、．])\s*/,'').trim()).filter(Boolean).map(l=>`<div class="bl"><span>•</span><div>${esc(l)}</div></div>`).join('')}
+function cardItem(c,i,W,x,y){
+  const H=Math.round(W*RATIO),b=Math.max(2,Math.round(W*.012)),pd=Math.round(W*.04),r=Math.round(W*.045),iw=W-pd*2-b*2,ih=H-pd*2-b*2;
+  const fsPos=Math.max(17,Math.min(30,W*.13)),fsDesc=Math.max(13,Math.min(19,W*.085)),fsNote=Math.max(15,Math.min(20,W*.095));
+  const src=imageFor(c.name);
+  return `<div class="ci" style="left:${x}px;top:${y}px">
+    <div class="ci-pos" style="font-size:${fsPos}px">${esc(c.pos)||'&nbsp;'}</div>
+    <div class="ci-desc" style="font-size:${fsDesc}px">${esc(c.desc)||'&nbsp;'}</div>
+    <div class="ci-frame" style="width:${W}px;height:${H}px;margin-top:${Math.round(W*.05)}px;border-width:${b}px;border-radius:${r}px">
+      <div class="ci-face" style="width:${iw}px;height:${ih}px;left:50%;top:50%;margin-left:${-iw/2}px;margin-top:${-ih/2}px;transform:rotate(${c.rev?180:0}deg);${src?`background-image:url('${src}');`:''}border-radius:${Math.round(r*.5)}px"></div></div>
+    <div class="ci-name" style="font-size:${fsPos}px;margin-top:${Math.round(W*.06)}px">${esc(c.name)}${c.rev?`<b style="font-size:${fsDesc*.8}px;padding:0 ${fsDesc*.4}px">逆位</b>`:''}</div>
+    <div class="ci-note" style="font-size:${fsNote}px;width:${Math.round(Math.min(W*1.35,1000/S.cards.length-16))}px;height:${Math.round(fsNote*1.4*2)}px">${esc(c.note)}</div>
+  </div>`}
+function panel(k,t,sub,bg,body){return `<div class="pan"><div class="pan-h"><div class="pan-ic" style="background:${bg}">${ICON[k]}</div><div><div class="pan-t">${t}</div><div class="pan-s">${sub}</div></div></div><div class="pan-b"><div class="in">${body}</div></div></div>`}
+function renderPoster(){
+  const n=S.cards.length,W=Math.round(Math.min(n===1?210:200,(AREA_H-20)/(RATIO+0.75),1000/(n+0.35*(n-1))));
+  const gap=Math.min(W*.6,(1000-n*W)/(n+1)),total=n*W+(n-1)*gap;
+  const sub=[S.theme,S.date,S.name].filter(Boolean).join('　・　');
+  $('#poster').innerHTML=`${decoSVG()}
+  <div class="p-brandL">${esc(BRAND.left)}</div><div class="p-brandR">${esc(BRAND.right)}</div>
+  <div class="p-eyebrow"><span>${esc(BRAND.eyebrow)}</span></div>
+  <div class="p-title"><div>${esc(S.question.trim())}</div></div>
+  <div class="p-sub">${esc(sub)}</div>
+  <div id="cardArea">${S.cards.map((c,i)=>cardItem(c,i,W,Math.round(540-total/2+W/2+i*(W+gap)),AREA_H/2)).join('')}</div>
+  <div class="p-panels">${panel('feel','感受','這組牌讓我感受到……','#e6d2b8',esc(S.feel))}${panel('insight','領悟','這組牌在告訴我……','#ead9c0',esc(S.insight))}${panel('action','行動','我可以怎麼做……','#46695c',bullets(S.action))}</div>
+  <div class="p-band"><div class="lb">給自己的話</div><div class="tx"><div>${esc(S.self)}</div></div>
+    <svg width="64" height="64" viewBox="0 0 64 64" style="position:absolute;right:20px;top:9px">${MOON(32,32,26,'#b89a74')}</svg></div>`;
+  requestAnimationFrame(fitAll);
+}
+function fitBox(box,inner,max,min){let s=max;inner.style.fontSize=s+'px';if(!box.clientHeight)return;while(s>min&&inner.scrollHeight>box.clientHeight+1){s-=.5;inner.style.fontSize=s+'px'}}
+function fitAll(){const p=$('#poster');if(!p)return;const t=p.querySelector('.p-title');fitBox(t,t.firstElementChild,60,28);
+  p.querySelectorAll('.pan-b').forEach(b=>fitBox(b,b.firstElementChild,22,11));const n=p.querySelector('.p-band .tx');fitBox(n,n.firstElementChild,22,12)}
+
+/* ---- export ---- */
+let toastT;function toast(m){if(!m)return;const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800)}
+const caps={};function cap(n){if(!caps[n]){try{if(window.claude&&window.claude.use)caps[n]=Promise.resolve(window.claude.use(n)).catch(()=>null)}catch{}}return caps[n]||Promise.resolve(null)}
+const frame=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+const fileName=()=>`塔羅覺察_${(S.theme||S.cards.map(c=>c.pos).join('')).replace(/[\\/:*?"<>|\s]+/g,'').slice(0,12)}_${S.date.replace(/\./g,'')}.png`;
+async function exportImage(how){
+  if(typeof html2canvas!=='function'){toast('圖片工具還在載入，請稍候再按一次');return}
+  $('#busy').hidden=false;
+  try{try{await document.fonts.ready}catch{}renderPoster();await frame();fitAll();await frame();
+    const p=$('#poster');
+    await Promise.all(S.cards.map(c=>new Promise(r=>{const u=imageFor(c.name);if(!u)return r();const im=new Image();im.onload=im.onerror=r;im.src=u})));
+    const canvas=await html2canvas(p,{scale:1,width:1080,height:1350,useCORS:true,logging:false,backgroundColor:'#f3eadb',
+      onclone:d=>{d.getElementById('poster').style.transform='none';const w=d.getElementById('stageWrap');w.style.overflow='visible';w.style.height='1350px'}});
+    const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));$('#busy').hidden=true;
+    const fn=fileName();
+    if(how==='share'){try{await navigator.share({files:[new File([blob],fn,{type:'image/png'})],title:'我的塔羅覺察'});return}catch(e){if(e&&e.name==='AbortError')return}}
+    const dl=await cap('downloads');
+    if(dl){try{await dl.save({filename:fn,data:blob});toast('已下載');return}catch(e){if(e&&e.code==='declined')return}}
+    if(!window.claude){try{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();
+      setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);toast('已下載，到「下載」或相簿找找看');}catch{}}
+    showImage(canvas.toDataURL('image/png'),!!window.claude);
+  }catch(e){$('#busy').hidden=true;toast('產生圖片失敗，請再試一次')}
+}
+function showImage(url,primary){const m=$('#modal');if(!primary&&!/Line\//i.test(navigator.userAgent))return;m.hidden=false;
+  m.innerHTML=`<div class="modal-card"><b>你的圖片</b><p class="hint">長按圖片選「儲存圖片」或「加入照片」。電腦請按右鍵另存。</p><img src="${url}" alt="我的塔羅覺察圖片"><button class="btn" id="mClose">關閉</button></div>`;
+  $('#mClose').onclick=()=>{m.hidden=true;m.innerHTML=''}}
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal'){e.target.hidden=true;e.target.innerHTML=''}});
+
+/* ---- boot ---- */
+try{S=Object.assign(fresh(),S);if(!Array.isArray(S.cards)||!S.cards.length)S=fresh();if(S.step>maxStep())S.step=maxStep()}catch{S=fresh()}
+render();
+if('serviceWorker' in navigator&&location.protocol==='https:'&&!window.claude){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
+})();
+</script>
+
+</body></html>
